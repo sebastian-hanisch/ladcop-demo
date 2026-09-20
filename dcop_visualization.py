@@ -7,7 +7,7 @@ primäre "eigene Schwäche"-Grafik dieses Stücks)."""
 
 import plotly.graph_objects as go
 
-from cn_visualization import AGENT_COLORS
+from cn_visualization import AGENT_COLORS, lock_axes
 
 
 def _intervals_from_schedules(instance, schedules):
@@ -61,7 +61,7 @@ def build_dcop_schedule_figure(instance, schedules, ortools_makespan=None, highl
         categoryarray=[f"Agent {a + 1}" for a in range(instance.n_agents)],
         autorange="reversed",
     )
-    return fig
+    return lock_axes(fig)
 
 
 def build_util_table_size_chart(instance, util_table_sizes):
@@ -74,7 +74,7 @@ def build_util_table_size_chart(instance, util_table_sizes):
         yaxis_title="Tabellengröße (Einträge)", yaxis_type="log",
         height=280, margin=dict(l=10, r=10, t=20, b=10),
     )
-    return fig
+    return lock_axes(fig)
 
 
 def build_util_step_bar(table, max_entries_shown=16):
@@ -100,7 +100,7 @@ def build_util_step_bar(table, max_entries_shown=16):
         yaxis_title="Beste Kosten",
         height=280, margin=dict(l=10, r=10, t=20, b=10),
     )
-    return fig, n_truncated
+    return lock_axes(fig), n_truncated
 
 
 def describe_value_step(job_index, agent_id):

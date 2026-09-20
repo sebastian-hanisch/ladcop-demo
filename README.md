@@ -38,6 +38,9 @@ Lernen an **zwei getrennten Stellen** in das DCOP ein - und ein **2x2-Design** t
 - Eine **lokale Suche** (10 Neustarts, 1–2 ms) auf demselben DCOP-Ziel ist ab n≥16 gleich gut oder besser als die gelernten
   Nachrichten; bei n=20, k=4 fallen die Nachrichten mit 2000 Samples auf Contract-Net-Niveau (mit 6000+ auf −6.5 %).
 - **CP-SAT bleibt 12–20 % vor allem Dezentralen.** Zentral ist der praktische Industriestandard.
+  Einschränkung: ab etwa n = 16 ist das CP-SAT-Ergebnis im 5-s-Zeitlimit oft nur ein **unbewiesenes Incumbent** (die App
+  kennzeichnet das je Instanz), kein bewiesenes Optimum. In [auction-demo](../auction-demo) lag die polynomielle Ein-Block-Auktion
+  bei n ≥ 20 sogar unter dem 20-s-Incumbent von CP-SAT (kleine Stichprobe; möglicherweise ein Artefakt des einfachen CP-SAT-Modells).
 - Die Nachrichten schlagen den *exakten* DPOP desselben Modells auf 17–18 % der Instanzen (worse auf 23–53 %) - das ist
   Surrogat-Rauschen (der exakte DPOP löst das Ziel, nicht den Makespan), keine Tugend.
 - **Verteilte Semantik:** das Constraint-Merkmal (untere Schranke) braucht die Kopplung zwischen Vorfahr und Nachfahr - ein

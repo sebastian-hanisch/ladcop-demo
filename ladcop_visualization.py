@@ -5,6 +5,7 @@ unverändert aus `dcop_visualization.build_dcop_schedule_figure`."""
 import plotly.graph_objects as go
 
 import cn_constants as C
+from cn_visualization import lock_axes
 from ladcop_evaluation import COLUMN_LABELS
 from ladcop_model import WEIGHT_NAMES
 
@@ -33,7 +34,7 @@ def build_weights_chart(vehicle, hand, learned):
         ))
     fig.update_layout(barmode="group", yaxis_title="Gewicht", height=320, margin=dict(l=10, r=10, t=20, b=10),
                       legend=dict(orientation="h", y=-0.25))
-    return fig
+    return lock_axes(fig)
 
 
 def build_cem_curve(history, start_fitness):
@@ -45,7 +46,7 @@ def build_cem_curve(history, start_fitness):
     fig.update_xaxes(title="CEM-Iteration (0 = Fahrzeug-Modell)", dtick=1 if len(history) <= 20 else None)
     fig.update_yaxes(title="Trainings-Makespan vs. Contract Net (%)")
     fig.update_layout(height=300, margin=dict(l=10, r=10, t=20, b=10))
-    return fig
+    return lock_axes(fig)
 
 
 def build_scaling_chart(rows, message_label):
@@ -66,7 +67,7 @@ def build_scaling_chart(rows, message_label):
     fig.update_yaxes(type="log", title="Zahlen pro Nachricht")
     fig.update_xaxes(title="Anzahl Aufträge", dtick=1)
     fig.update_layout(height=340, margin=dict(l=10, r=10, t=20, b=10), legend=dict(orientation="h", y=-0.3))
-    return fig
+    return lock_axes(fig)
 
 
 def build_capacity_ladder_chart(rows):
@@ -80,7 +81,7 @@ def build_capacity_ladder_chart(rows):
     fig.add_hline(y=0, line_dash="dash", line_color=VEHICLE_COLOR, annotation_text="Contract Net", annotation_position="top left")
     fig.update_yaxes(title="Makespan vs. Contract Net (%)")
     fig.update_layout(height=380, margin=dict(l=10, r=10, t=20, b=10), showlegend=False)
-    return fig
+    return lock_axes(fig)
 
 
 def build_util_scatter(exact, approx, stage):
@@ -94,7 +95,7 @@ def build_util_scatter(exact, approx, stage):
     fig.update_xaxes(title=f"exakter UTIL-Wert (Stufe {stage})")
     fig.update_yaxes(title="gelernte Nachricht")
     fig.update_layout(height=320, margin=dict(l=10, r=10, t=20, b=10), showlegend=False)
-    return fig
+    return lock_axes(fig)
 
 
 def build_comparison_bars(cmp):
@@ -108,7 +109,7 @@ def build_comparison_bars(cmp):
     fig.update_xaxes(title="Makespan vs. Contract Net (%)")
     fig.update_yaxes(autorange="reversed")
     fig.update_layout(height=320, margin=dict(l=10, r=40, t=20, b=10), showlegend=False)
-    return fig
+    return lock_axes(fig)
 
 
 def build_heldout_chart(sweep):
@@ -126,7 +127,7 @@ def build_heldout_chart(sweep):
     fig.update_xaxes(title=f"mittlerer Makespan vs. Contract Net (%), {sweep['n_instances']} feste Held-out-Instanzen")
     fig.update_yaxes(autorange="reversed")
     fig.update_layout(height=340, margin=dict(l=10, r=200, t=20, b=10), showlegend=False)
-    return fig
+    return lock_axes(fig)
 
 
 def build_learn_lottery_chart(lottery):
@@ -137,4 +138,4 @@ def build_learn_lottery_chart(lottery):
     fig.add_hline(y=0, line_dash="dash", line_color=VEHICLE_COLOR, annotation_text="Contract Net", annotation_position="top left")
     fig.update_yaxes(title="Makespan vs. Contract Net (%)")
     fig.update_layout(height=280, margin=dict(l=10, r=10, t=20, b=10), showlegend=False)
-    return fig
+    return lock_axes(fig)
