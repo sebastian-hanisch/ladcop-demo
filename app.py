@@ -201,7 +201,7 @@ for row_start in range(0, len(preset_names), 4):
     preset_cols = st.columns(4)
     for col, name in zip(preset_cols, preset_names[row_start:row_start + 4]):
         with col:
-            st.button(name, use_container_width=True, on_click=apply_preset, args=(name,), help=PRESET_HELP[name])
+            st.button(name, width="stretch", on_click=apply_preset, args=(name,), help=PRESET_HELP[name])
 
 st.caption(
     "🔗 Die Adresszeile oben spiegelt Ihre aktuelle Konfiguration wider – einfach kopieren, "
@@ -230,7 +230,7 @@ with st.sidebar:
 
     st.button(
         "🎲 Neue Instanz generieren",
-        use_container_width=True,
+        width="stretch",
         on_click=randomize_seed,
         help="Würfelt einen neuen Zufalls-Seed für Auftragspositionen und -dauern (trainiert nichts neu).",
     )
@@ -301,7 +301,7 @@ with step_col:
     else:
         step = st.slider("Schritt (Auftragsvergabe)", 0, max_step, key="cn_step")
 with play_col:
-    auto_play_cnp = st.button("▶️ Abspielen", use_container_width=True, key="cnp_play")
+    auto_play_cnp = st.button("▶️ Abspielen", width="stretch", key="cnp_play")
 
 chart_col, bid_col = st.columns([3, 2])
 schedule_slot = chart_col.empty()
@@ -311,11 +311,11 @@ bid_slot = bid_col.empty()
 def _render_cnp(current_step):
     schedule_slot.plotly_chart(
         build_schedule_figure(instance, cnp_result, current_step, ortools_makespan),
-        use_container_width=True, key=f"cnp_schedule_{current_step}",
+        width="stretch", key=f"cnp_schedule_{current_step}",
     )
     bid_slot.plotly_chart(
         build_bid_chart(cnp_result.steps[current_step]),
-        use_container_width=True, key=f"cnp_bids_{current_step}",
+        width="stretch", key=f"cnp_bids_{current_step}",
     )
 
 
@@ -361,10 +361,10 @@ m2.metric("Gelerntes Modell (Training)", f"{(final_fit - 1) * 100:+.1f} %")
 m3.metric("Lernzeit", _fmt_seconds(model.seconds), help="Auf diesem Rechner; das Ergebnis ist gecacht.")
 left, right = st.columns([2, 3])
 with left:
-    st.plotly_chart(build_cem_curve(model.history, model.start_fitness), use_container_width=True, key="cem_curve")
+    st.plotly_chart(build_cem_curve(model.history, model.start_fitness), width="stretch", key="cem_curve")
 with right:
     st.plotly_chart(
-        build_weights_chart(VEHICLE_WEIGHTS, HAND_BALANCE_WEIGHTS, model.weights), use_container_width=True,
+        build_weights_chart(VEHICLE_WEIGHTS, HAND_BALANCE_WEIGHTS, model.weights), width="stretch",
         key="weights_chart",
     )
 st.caption(
@@ -388,7 +388,7 @@ else:
             scenario_key[0], scenario_key[1], duration_variability, travel_time_per_unit, train_instances,
             cem_iterations, learn_seed,
         )
-    st.plotly_chart(build_learn_lottery_chart(lot), use_container_width=True, key="learn_lottery_chart")
+    st.plotly_chart(build_learn_lottery_chart(lot), width="stretch", key="learn_lottery_chart")
     st.caption(
         f"Held-out (bis 10 Aufträge, exakter DPOP): {lot['min_pct']:+.1f} % bis {lot['max_pct']:+.1f} % gegenüber Contract Net, "
         f"Streuung über Lern-Seeds **{lot['std_pct']:.1f} Punkte**."
@@ -413,7 +413,7 @@ p3.metric("Fit-Zeit der Nachrichten", _fmt_seconds(msg_cell.get("fit_seconds", 0
 scale_ns = list(range(4, C.N_JOBS_MAX + 1))
 st.plotly_chart(
     build_scaling_chart(scaling_table(int(n_agents), scale_ns, feature_set), FEATURE_SETS[feature_set].label),
-    use_container_width=True, key="scaling_chart",
+    width="stretch", key="scaling_chart",
 )
 st.caption(
     "**Verteilte Semantik:** das Constraint-Merkmal (untere Schranke) braucht die Kopplung zwischen Vorfahr und Nachfahr - ein "
@@ -444,7 +444,7 @@ else:
     rmse = float(np.sqrt(np.mean((approx_values - exact_values) ** 2)))
     spread = float(exact_values.std())
     sc1, sc2 = st.columns([3, 2])
-    sc1.plotly_chart(build_util_scatter(exact_values, approx_values, stage), use_container_width=True, key=f"util_scatter_{stage}")
+    sc1.plotly_chart(build_util_scatter(exact_values, approx_values, stage), width="stretch", key=f"util_scatter_{stage}")
     sc2.metric("Normierter Fehler (RMSE / Std)", f"{rmse / spread:.2f}" if spread > 1e-12 else "0.00")
     sc2.caption(
         f"Stufe {stage}: {_fmt_int(len(exact_values))} Einträge verglichen (ab {_fmt_int(4000)} Präfixen zufällig gezogen). "
@@ -461,7 +461,7 @@ if st.session_state.get("ladder_owner") != ladder_key:
 else:
     with st.spinner("Rechne die Kapazitätsleiter..."):
         rows = _compute_ladder(scenario_key[0], scenario_key[1], duration_variability, travel_time_per_unit, model_key, samples)
-    st.plotly_chart(build_capacity_ladder_chart(rows), use_container_width=True, key="ladder_chart")
+    st.plotly_chart(build_capacity_ladder_chart(rows), width="stretch", key="ladder_chart")
     gaps = [r["surrogate_gap_pct"] for r in rows if r["surrogate_gap_pct"] is not None]
     st.caption(
         "Mit wachsender Kapazität nähert sich das Ergebnis dem exakten DPOP des Modells."
@@ -589,7 +589,7 @@ if cells["cpsat"] is not None:
             "Gelernte und dezentrale Verfahren tauschen globale Optimalität gegen Dezentralität und Reichweite."
         )
 
-st.plotly_chart(build_comparison_bars(cmp), use_container_width=True, key="comparison_bars")
+st.plotly_chart(build_comparison_bars(cmp), width="stretch", key="comparison_bars")
 
 available = [n for n in COLUMN_LABELS if cells.get(n) is not None and n != "cpsat"] + (["cpsat"] if cells["cpsat"] is not None else [])
 if st.session_state.get("gantt_column") not in available:
@@ -601,7 +601,7 @@ st.plotly_chart(
     build_dcop_schedule_figure(
         instance, schedules_from_assignment(cells[gantt_choice]["assignment"], instance.n_agents), ortools_makespan,
     ),
-    use_container_width=True, key=f"gantt_{gantt_choice}",
+    width="stretch", key=f"gantt_{gantt_choice}",
 )
 
 st.markdown("**Held-out: feste Instanzen statt Einzelfall**")
@@ -619,7 +619,7 @@ else:
         sweep = _compute_sweep(
             scenario_key[0], scenario_key[1], duration_variability, travel_time_per_unit, model_key, feature_set, samples,
         )
-    st.plotly_chart(build_heldout_chart(sweep), use_container_width=True, key="heldout_chart")
+    st.plotly_chart(build_heldout_chart(sweep), width="stretch", key="heldout_chart")
     stats = sweep["stats"]
     notes = []
     if "msg_vs_exact" in sweep:
