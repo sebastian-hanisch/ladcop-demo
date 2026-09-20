@@ -1,5 +1,7 @@
 # Learning-Augmented DCOP an der Kran-Auftragsvergabe – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-ladcop-demo.streamlit.app/)**
+
 Sechstes Stück der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations
 Research und Machine Learning", **Multi-Agenten-Koordinations-Linie** - der **Konvergenzknoten** aus
 [dcop-demo](../dcop-demo) (Modell: DCOP, Löser: DPOP) und den lernenden Stücken
