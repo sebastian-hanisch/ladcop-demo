@@ -23,7 +23,7 @@ Lernen an **zwei getrennten Stellen** in das DCOP ein - und ein **2x2-Design** t
 | **Fahrzeug-Modell** | +8.6 … +13.5 % | +8.6 … +15.2 % |
 | **gelerntes Modell** | −10.8 … −13.6 % | −7.6 … −12.5 % |
 
-(Mittlerer echter Makespan gegenüber Contract Net, 24 Held-out-Instanzen, n=8…12, k=3…4 - Prototyp-Messung.)
+(Mittlerer echter Makespan gegenüber Contract Net, Held-out-Instanzen, n=8…12, k=3…4 - nicht reproduzierte Prototyp-Messung; die Demo selbst nutzt heute 20 Held-out-Instanzen je Setting.)
 **Modell-Effekt** ≈ −22…−26 Punkte, **Löser-Effekt** ≈ +1…+4 Punkte.
 
 1. **Das Modell lernen (Evolutionsstrategie/CEM).** Fünf Gewichte (Anfahrt, Dauer, Distanz, Last-Produkt, Paar-Anzahl)
@@ -66,7 +66,7 @@ Graph-Struktur, und von Modell-/Nachrichten-Lernen dominiert (Held-out gegenübe
 | n=10, k=3 | −6.5 ± 1.1 % | −8.8 ± 0.9 % | −7.1 ± 0.9 % |
 | n=12, k=3 | −7.0 ± 1.8 % | −8.5 ± 0.9 % | −8.6 ± 0.4 % |
 
-Einmalige Messung, die Parameterzahlen der Varianten sind nicht exakt gleich (780 / 588 / 288); auf 17–27 % der
+Einmalige, nicht reproduzierte Messung (die Policy liegt nicht mehr im Repo, kein Test prüft die Zahlen), die Parameterzahlen der Varianten sind nicht exakt gleich (780 / 588 / 288); auf 17–27 % der
 Held-out-Instanzen verliert die Policy weiterhin gegen Contract Net. Nicht getestet: PPO statt Evolutionsstrategie,
 autoregressives Decodieren, längeres Training, ein instanzübergreifend amortisiertes Nachrichten-Netz.
 

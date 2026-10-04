@@ -694,7 +694,7 @@ Nachrichten-Lernen dominiert (Held-out gegenüber Contract Net, Mittel über 5 S
         "Lokal (ohne Kopplung)": ["−10.6 ± 1.2 %", "−7.1 ± 0.9 %", "−8.6 ± 0.4 %"],
     })
     st.caption(
-        "Einmalige Messung; Parameterzahlen der Varianten sind nicht exakt gleich (780 / 588 / 288). 17-27 % der Held-out-"
+        "Einmalige, nicht reproduzierte Messung (die Policy liegt nicht mehr im Repo, kein Test prüft die Zahlen); Parameterzahlen der Varianten sind nicht exakt gleich (780 / 588 / 288). 17-27 % der Held-out-"
         "Instanzen verlieren weiterhin gegen Contract Net."
     )
 
