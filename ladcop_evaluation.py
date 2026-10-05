@@ -100,9 +100,9 @@ def compare_instance(
                 "seconds": result.wall_time_ms / 1000.0, "optimal": result.optimal, "surrogate": None,
             }
 
-    # CP-SAT rundet Zeiten AUF: sein Wert kann knapp über einem tatsächlich erreichbaren Zeitplan liegen. Ist der Lauf
-    # bewiesen optimal, ist das echte Optimum <= jeder zulässigen Lösung - der Wert wird dann nie größer als der beste
-    # bekannte Zeitplan angesetzt. Bei unbewiesenen Läufen (Zeitlimit) bleibt der Solver-Wert unverändert: dann kann ein
+    # CP-SAT sucht auf einem aufgerundeten Raster; gemeldet wird zwar der exakt nachgerechnete Zeitplan, dessen Reihenfolge ist
+    # aber nur auf dem Raster optimal (Orakel: höchstens 0,26 % über dem exakten Optimum). Ist der Lauf bewiesen optimal, ist
+    # das echte Optimum <= jeder zulässigen Lösung - der Wert wird dann nie größer als der beste bekannte Zeitplan angesetzt. Bei unbewiesenen Läufen (Zeitlimit) bleibt der Solver-Wert unverändert: dann kann ein
     # dezentrales Verfahren den Incumbent sogar schlagen.
     reference = None
     if cells["cpsat"] is not None:

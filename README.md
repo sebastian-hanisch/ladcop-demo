@@ -20,14 +20,14 @@ Lernen an **zwei getrennten Stellen** in das DCOP ein - und ein **2x2-Design** t
 
 |  | exakt gelöst (DPOP) | gelernte Nachrichten |
 |---|---|---|
-| **Fahrzeug-Modell** | +8.6 … +13.5 % | +8.6 … +15.2 % |
-| **gelerntes Modell** | −10.8 … −13.6 % | −7.6 … −12.5 % |
+| **Fahrzeug-Modell** | +8.6 … +14.4 % | (in der Held-out-Messung nicht erhoben) |
+| **gelerntes Modell** | −7.8 … −15.1 % | −6.6 … −14.7 % |
 
-(Mittlerer echter Makespan gegenüber Contract Net, Held-out-Instanzen, n=8…12, k=3…4 - nicht reproduzierte Prototyp-Messung; die Demo selbst nutzt heute 20 Held-out-Instanzen je Setting.)
-**Modell-Effekt** ≈ −22…−26 Punkte, **Löser-Effekt** ≈ +1…+4 Punkte.
+(Mittlerer echter Makespan gegenüber Contract Net; Nachmessung 2026-10-05 mit `ladcop_evaluation.heldout_sweep`: je Setting n ∈ {8, 10, 12} × k ∈ {3, 4} 20 feste Held-out-Instanzen, Streuung 0,3, Reisezeit 1,0, App-Defaults (Lern-Seed 0, 30 Trainingsinstanzen, 12 CEM-Iterationen, 2000 Samples). Die früheren Prototyp-Zahlen - Fahrzeug +8.6 … +13.5 / +8.6 … +15.2 %, gelernt −10.8 … −13.6 / −7.6 … −12.5 % - ließen sich nicht reproduzieren.)
+**Modell-Effekt** ≈ −18…−25 Punkte (je Setting −17.9 … −24.8), **Löser-Effekt** ≈ −1…+4 Punkte (−0.9 … +4.2).
 
 1. **Das Modell lernen (Evolutionsstrategie/CEM).** Fünf Gewichte (Anfahrt, Dauer, Distanz, Last-Produkt, Paar-Anzahl)
-   werden aus dem Makespan-Feedback der *exakten* DPOP-Lösung gelernt (≈ 1 s). Ergebnis ≈ −12…−14 % gegenüber Contract Net.
+   werden aus dem Makespan-Feedback der *exakten* DPOP-Lösung gelernt (≈ 1 s). Ergebnis ≈ −8…−15 % gegenüber Contract Net (Nachmessung, siehe oben).
    **Ehrlich eingeordnet:** ein von Hand abgeleiteter Term (Summe der quadrierten Lasten) leistet dasselbe - der Lerner
    entdeckt eine bekannte Korrektur, er schlägt sie nicht. Die Dauer-Gewichtung ist wirkungslos (die Dauer eines Auftrags ist
    für jeden Agenten gleich; das gilt auch für dcop-demos Unärkosten).
@@ -39,11 +39,11 @@ Lernen an **zwei getrennten Stellen** in das DCOP ein - und ein **2x2-Design** t
 **Ehrliche Grenzen:**
 - Eine **lokale Suche** (10 Neustarts, 1–2 ms) auf demselben DCOP-Ziel ist ab n≥16 gleich gut oder besser als die gelernten
   Nachrichten; bei n=20, k=4 fallen die Nachrichten mit 2000 Samples auf Contract-Net-Niveau (mit 6000+ auf −6.5 %).
-- **CP-SAT bleibt 12–20 % vor allem Dezentralen.** Zentral ist der praktische Industriestandard.
+- **CP-SAT bleibt 10–15 % vor dem besten Dezentralen** (mittlerer Makespan der Held-out-Messung oben: 9.8 … 14.8 % hinter CP-SAT, die gelernten Nachrichten 10.7 … 18.7 %). Zentral ist der praktische Industriestandard.
   Einschränkung: ab etwa n = 16 ist das CP-SAT-Ergebnis im 5-s-Zeitlimit oft nur ein **unbewiesenes Incumbent** (die App
   kennzeichnet das je Instanz), kein bewiesenes Optimum. In [auction-demo](../auction-demo) lag die polynomielle Ein-Block-Auktion
-  bei n ≥ 20 sogar unter dem 20-s-Incumbent von CP-SAT (kleine Stichprobe; möglicherweise ein Artefakt des einfachen CP-SAT-Modells).
-- Die Nachrichten schlagen den *exakten* DPOP desselben Modells auf 17–18 % der Instanzen (worse auf 23–53 %) - das ist
+  bei n ≥ 20 sogar unter dem Zeitlimit-Incumbent von CP-SAT (10 s in der App, Prototyp 20 s; kleine Stichprobe; möglicherweise ein Artefakt des einfachen CP-SAT-Modells).
+- Die Nachrichten schlagen den *exakten* DPOP desselben Modells auf 0–30 % der Instanzen (schlechter auf 15–45 %; Held-out-Nachmessung) - das ist
   Surrogat-Rauschen (der exakte DPOP löst das Ziel, nicht den Makespan), keine Tugend.
 - **Verteilte Semantik:** das Constraint-Merkmal (untere Schranke) braucht die Kopplung zwischen Vorfahr und Nachfahr - ein
   echt verteiltes Verfahren müsste eine O(n²)-Interaktionsmatrix die Kette hochreichen. Die Nachrichtengröße ist polynomiell,
@@ -51,7 +51,7 @@ Lernen an **zwei getrennten Stellen** in das DCOP ein - und ein **2x2-Design** t
 - Nur das constraint-abgeleitete Lower-Bound-Merkmal verbessert die Nachrichten-Treue (Faktor 1.4–3 auf dem DCOP-Ziel) - ein
   Fidelity-, kein Makespan-Gewinn (die realen Unterschiede bleiben bei ±3 Punkten).
 - **Korrektur zu dcop-demo:** die dortige Aussage "DPOP schlägt CNP in etwa der Hälfte der Instanzen" ist
-  setting-abhängig (Held-out: Gewinne 27–50 %, Verluste 47–70 %, Mittel +5…+19 % schlechter) - siehe die Held-out-Sweeps.
+  setting-abhängig (Held-out-Nachmessung: Gewinne 30 %, Verluste 55–70 %, Mittel +8.6 … +14.4 % schlechter) - siehe die Held-out-Sweeps.
 
 ### Was nicht funktioniert hat (einmalige Messung, kein App-Abschnitt)
 
